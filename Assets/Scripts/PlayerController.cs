@@ -17,11 +17,15 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isFacingRight = true; // Para saber hacia donde mira el personaje
 
+    private Animator animator;
+
     // Start se llama una vez al inicio
     void Start()
     {
         // Obtenemos el componente Rigidbody2D para poder usar físicas
         rb = GetComponent<Rigidbody2D>();
+
+        animator = GetComponent<Animator>();
     }
 
     // Update se llama una vez por frame (ideal para inputs)
@@ -31,6 +35,15 @@ public class PlayerController : MonoBehaviour
         // Input.GetAxis("Horizontal") usa las teclas A/D y las flechas izquierda/derecha
         // Devuelve un valor entre -1 (izquierda) y 1 (derecha)
         horizontalInput = Input.GetAxis("Horizontal");
+
+        if (horizontalInput != 0)
+        {             
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
 
         // 2. DETECTAR SALTO
         // Input.GetButtonDown("Jump") detecta la barra espaciadora (por defecto en Unity)
@@ -53,6 +66,9 @@ public class PlayerController : MonoBehaviour
         // Dibuja un círculo invisible en la posici�n de 'groundCheck'
         // Si ese círculo toca algo en la 'groundLayer', isGrounded es true
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // Le decimos al Animator: "isJumping" es verdadero si NO estamos en el suelo.
+        animator.SetBool("isJumping", !isGrounded);
 
         // 5. APLICAR MOVIMIENTO HORIZONTAL
         // Movemos el Rigidbody cambiando su velocidad (velocity)
