@@ -1,30 +1,28 @@
 using UnityEngine;
 
-// Aseg�rate de que el GameObject tenga estos componentes
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))] // O CapsuleCollider2D
+// Asegurate de que el GameObject tenga estos componentes
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Configuraci�n de Movimiento")]
+    [Header("Configuración de Movimiento")]
     public float moveSpeed = 5f;    // Velocidad de movimiento horizontal
     public float jumpForce = 10f;   // Fuerza del salto
 
-    [Header("Configuraci�n de Suelo")]
-    public Transform groundCheck;         // Un GameObject vac�o puesto a los pies del jugador
-    public LayerMask groundLayer;         // La capa que define qu� es "suelo"
-    public float groundCheckRadius = 0.2f; // Radio del c�rculo para detectar el suelo
+    [Header("Configuración de Suelo")]
+    public Transform groundCheck;         // Un GameObject vacío puesto a los pies del jugador
+    public LayerMask groundLayer;         // La capa que define que es "suelo"
+    public float groundCheckRadius = 0.2f; // Radio del circulo para detectar el suelo
 
     // Componentes y variables privadas
     private Rigidbody2D rb;
     private float horizontalInput;
     private bool isGrounded;
-    private bool isFacingRight = true; // Para saber hacia d�nde mira el personaje
+    private bool isFacingRight = true; // Para saber hacia donde mira el personaje
 
     // Start se llama una vez al inicio
     void Start()
     {
-        // Obtenemos el componente Rigidbody2D para poder usar f�sicas
+        // Obtenemos el componente Rigidbody2D para poder usar físicas
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -41,7 +39,7 @@ public class PlayerController : MonoBehaviour
         // Solo podemos saltar si "isGrounded" es verdadero
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            // Aplicamos una fuerza vertical instant�nea
+            // Aplicamos una fuerza vertical instantánea
             // Usamos VelocityChange para ignorar la masa del jugador y dar un salto consistente
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
@@ -50,12 +48,12 @@ public class PlayerController : MonoBehaviour
         FlipSprite();
     }
 
-    // FixedUpdate se llama en un intervalo fijo (ideal para f�sicas)
+    // FixedUpdate se llama en un intervalo fijo (ideal para físicas)
     void FixedUpdate()
     {
-        // 4. COMPROBAR SI EST� EN EL SUELO
-        // Dibuja un c�rculo invisible en la posici�n de 'groundCheck'
-        // Si ese c�rculo toca algo en la 'groundLayer', isGrounded es true
+        // 4. COMPROBAR SI ESTÁ EN EL SUELO
+        // Dibuja un círculo invisible en la posici�n de 'groundCheck'
+        // Si ese círculo toca algo en la 'groundLayer', isGrounded es true
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         // 5. APLICAR MOVIMIENTO HORIZONTAL
@@ -83,7 +81,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // (Opcional) Dibuja el c�rculo de groundCheck en el editor para que puedas verlo
+    // (Opcional) Dibuja el círculo de groundCheck en el editor para que puedas verlo
     void OnDrawGizmosSelected()
     {
         if (groundCheck == null) return;
