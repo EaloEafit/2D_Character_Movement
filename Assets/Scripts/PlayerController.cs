@@ -1,7 +1,5 @@
 using UnityEngine;
 
-// Asegurate de que el GameObject tenga estos componentes
-
 public class PlayerController : MonoBehaviour
 {
     [Header("Configuración de Movimiento")]
