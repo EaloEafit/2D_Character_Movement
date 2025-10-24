@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// TEST LINES
+// Asegurate de que el GameObject tenga estos componentes
 
 public class PlayerController : MonoBehaviour
 {
